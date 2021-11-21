@@ -13,15 +13,6 @@ public class simplex {
     	
     	preenchimentoInicial();
     	
-    	double[][] Restricao = { { 1, 0, 3 }, 
-    							 { 0, 1, 4 }, 
-    							 { 1, 2, 9 } };
-		double[] func = { 5, 2 };
-		boolean maximizacao = true;
-		
-		preencherVariaveis(2, 3);
-		montarMatriz(2, 3, Restricao, func, maximizacao);
-		
         boolean verificar = true;
         int count = 0;
         
