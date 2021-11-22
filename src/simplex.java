@@ -7,13 +7,13 @@ public class simplex {
 	static int coluna;
 	static String[] linhaVariaveis;
 	static String[] colunaVariaveis;
-	
+	static boolean maximizacao;
 
     public static void main(String[] args) {
     	
     	preenchimentoInicial();
     	
-        boolean verificar = true;
+        boolean verificar = analisarSetOtimo();
         int count = 0;
         
         while (verificar == true) {
@@ -40,7 +40,7 @@ public class simplex {
     	
     	int restricoes, variaveis;
     	double[][] restricao;
-    	boolean maximizacao;
+//    	boolean maximizacao;
     	Scanner input = new Scanner(System.in); 
     	
     	System.out.print("Digite a quantidade de restrições: ");
@@ -98,11 +98,11 @@ public class simplex {
 		// Preencher primeira linha com valores da função objetiva
 		tabela[0][0] = 1;
 		for (int i = 1; i < numeroVariaveisDecisao + 1; i++) {
-//			if (maximizacao) {
+			if (maximizacao) {
 				tabela[0][i] = FuncaoObjetiva[i - 1] * (-1);
-//			} else {
-//				tabela[0][i] = FuncaoObjetiva[i - 1];
-//			}
+			} else {
+				tabela[0][i] = FuncaoObjetiva[i - 1];
+			}
 		}
 
 
@@ -122,6 +122,7 @@ public class simplex {
 			}
 		}
 		
+    	System.out.println("\n");
 		exibirTabela();
 
 		return tabela;
@@ -274,17 +275,6 @@ public class simplex {
     	return isPassed;
     }
 	
-    // metodo que exibe a resposta final com os valores para as variaveis
-	public static void exibirResposta() {
-		
-		System.out.println("\n\n======| RESULTADO |======");
-		for (int i = 0; i < colunaVariaveis.length; i++) {
-			System.out.printf("|\t %s = %.2f \t|\n", colunaVariaveis[i], tabela[i][coluna - 1]);
-		}
-		System.out.println("|_______________________|");
-		
-	}
-    
 	// preenche vetores com as variaveis para exibição e mudança de base
     public static void preencherVariaveis(int variaveis, int restricoes) {
     	
@@ -336,4 +326,24 @@ public class simplex {
             System.out.println();
   		}
     }
+    
+    // metodo que exibe a resposta final com os valores para as variaveis
+	public static void exibirResposta() {
+		
+		System.out.println("\n\n======| RESULTADO |======");
+		for (int i = 0; i < colunaVariaveis.length; i++) {
+			if (i == 0) {
+				if (!maximizacao) {
+					System.out.printf("|\t %s = %.2f \t|\n", colunaVariaveis[i], (tabela[i][coluna - 1] * -1));
+				} else {
+					System.out.printf("|\t %s = %.2f \t|\n", colunaVariaveis[i], (tabela[i][coluna - 1]));
+				}
+			} else {
+				System.out.printf("|\t %s = %.2f \t|\n", colunaVariaveis[i], tabela[i][coluna - 1]);
+			}
+		}
+		System.out.println("|_______________________|");
+		System.out.println("OBS: Os valores das variáveis não exibidas no resultado é igual a 0");
+		
+	}
 }
